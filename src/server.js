@@ -3,6 +3,8 @@ import cors from "cors";
 import dotenv from "dotenv";
 import sequelize from "./config/database.js";
 import cookieParser from "cookie-parser";
+import userRoutes from "./routes/userRoutes.js";
+import bodyParser from "body-parser";
 
 const app = express();
 dotenv.config();
@@ -14,8 +16,10 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+app.use(bodyParser.json());
 app.use(express.json());
 app.use(cookieParser());
+app.use(express.static("public"));
 
 sequelize
   .sync()
@@ -25,6 +29,9 @@ sequelize
   .catch((error) => {
     console.log(error);
   });
+
+
+app.use("/api/auth", userRoutes);
 
 const PORT = process.env.PORT || 5000;
 
