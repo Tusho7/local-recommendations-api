@@ -13,7 +13,7 @@ router.post(
 );
 
 router.post("/login", userController.loginUser);
-router.post("logout", userController.logoutUser);
+router.post("/logout", userController.logoutUser);
 router.post("/forgot-password", userController.forgotPassword);
 router.put("/:id", userController.updateUser);
 router.get("/verify", userController.verifyUser);
