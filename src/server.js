@@ -7,6 +7,7 @@ import userRoutes from "./routes/userRoutes.js";
 import categoryRoutes from "./routes/categoryRoutes.js";
 import recommendationRoutes from "./routes/recommendationController.js";
 import bodyParser from "body-parser";
+import contactRoutes from "./routes/contactRoutes.js";
 
 const app = express();
 dotenv.config();
@@ -35,6 +36,7 @@ sequelize
 app.use("/api/auth", userRoutes);
 app.use("/", categoryRoutes);
 app.use("/", recommendationRoutes);
+app.use("/", contactRoutes);
 
 const PORT = process.env.PORT || 5000;
 
