@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import sequelize from "./config/database.js";
 import cookieParser from "cookie-parser";
 import userRoutes from "./routes/userRoutes.js";
+import categoryRoutes from "./routes/categoryRoutes.js";
 import bodyParser from "body-parser";
 
 const app = express();
@@ -32,6 +33,7 @@ sequelize
 
 
 app.use("/api/auth", userRoutes);
+app.use("/", categoryRoutes);
 
 const PORT = process.env.PORT || 5000;
 
