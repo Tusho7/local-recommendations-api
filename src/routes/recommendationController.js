@@ -14,7 +14,7 @@ router.get(
 );
 
 router.get(
-  "get_recommendation_by_categoryID/:category:id",
+  "/get_recommendation_by_categoryID/:categoryId",
   recommendationController.getRecommendationsByCategoryId
 );
 

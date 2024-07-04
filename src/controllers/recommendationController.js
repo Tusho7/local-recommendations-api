@@ -70,10 +70,10 @@ export const getRecommendationsByCategoryId = async (req, res) => {
     });
 
     if (recommendations.length === 0) {
-      return res.status(404).send("ამ კატეგორიაში არ მოიძებნა რეკომენდაციები.");
+      return res.json({ message: "ამ კატეგორიაში არ მოიძებნა რეკომენდაციები."})
     }
 
-    res.status(200).send(recommendations);
+    res.status(200).json({ message: "წარმატება!", recommendations})
   } catch (error) {
     console.error("Error getting recommendations by category ID: ", error);
     res.status(500).json({ message: "დაფიქსირდა შეცდომა." });
