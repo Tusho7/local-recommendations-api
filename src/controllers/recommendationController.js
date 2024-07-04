@@ -71,10 +71,16 @@ export const getRecommendationsByCategoryId = async (req, res) => {
   try {
     const recommendations = await Recommendation.findAll({
       where: { categoryId },
-      include: {
-        model: Category,
-        attributes: ["name"],
-      },
+      include: [
+        {
+          model: Category,
+          attributes: ["name"],
+        },
+        {
+          model: User,
+          attributes: ["firstName", "lastName"],
+        }
+      ]
     });
 
     if (recommendations.length === 0) {
@@ -83,7 +89,7 @@ export const getRecommendationsByCategoryId = async (req, res) => {
       });
     }
 
-    res.status(200).json({ message: "წარმატება!", recommendations });
+    res.status(200).json(recommendations);
   } catch (error) {
     console.error("Error getting recommendations by category ID: ", error);
     res.status(500).json({ message: "დაფიქსირდა შეცდომა." });
