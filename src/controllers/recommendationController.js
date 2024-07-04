@@ -7,17 +7,19 @@ export const createRecommendation = async (req, res) => {
     req.body;
 
   if (!name || !review) {
-    return res.status(400).send("ობიექტის სახელი და შეფასება აუცილებელია.");
+    return res
+      .status(400)
+      .json({ message: "ობიექტის სახელი და შეფასება აუცილებელია." });
   }
 
   if (!categoryId) {
-    return res.status(400).send("კატეგორია აუცილებელია.");
+    return res.status(400).json({ message: "კატეგორია აუცილებელია." });
   }
 
   try {
     const category = await Category.findByPk(categoryId);
     if (!category) {
-      return res.status(404).send("კატეგორია ვერ მოიძებნა.");
+      return res.status(404).json({ message: "კატეგორია ვერ მოიძებნა." });
     }
 
     const newRecommendation = await Recommendation.create({
@@ -40,10 +42,16 @@ export const createRecommendation = async (req, res) => {
 export const getAllRecommendations = async (req, res) => {
   try {
     const recommendations = await Recommendation.findAll({
-      include: {
-        model: Category,
-        attributes: ["name"],
-      },
+      include: [
+        {
+          model: Category,
+          attributes: ["name"],
+        },
+        {
+          model: User,
+          attributes: ["firstName", "lastName"],
+        },
+      ],
     });
 
     res.status(200).send(recommendations);
@@ -70,10 +78,12 @@ export const getRecommendationsByCategoryId = async (req, res) => {
     });
 
     if (recommendations.length === 0) {
-      return res.json({ message: "ამ კატეგორიაში არ მოიძებნა რეკომენდაციები."})
+      return res.json({
+        message: "ამ კატეგორიაში არ მოიძებნა რეკომენდაციები.",
+      });
     }
 
-    res.status(200).json({ message: "წარმატება!", recommendations})
+    res.status(200).json({ message: "წარმატება!", recommendations });
   } catch (error) {
     console.error("Error getting recommendations by category ID: ", error);
     res.status(500).json({ message: "დაფიქსირდა შეცდომა." });
