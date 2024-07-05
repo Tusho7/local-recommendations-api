@@ -1,7 +1,7 @@
 import User from "../models/User.js";
 import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
-import { sendVerificationEmail } from "../utils/emailVerification.js";
+import { sendVerificationEmail, updateUserEmail, forgotPasswordEmail } from "../utils/emailVerification.js";
 import jwt from "jsonwebtoken";
 
 const generateUniqueCode = () => {
@@ -118,7 +118,7 @@ export const updateUser = async (req, res) => {
 
     if (email && email !== user.email) {
       const verificationCode = generateUniqueCode();
-      await sendVerificationEmail(email, verificationCode);
+      await updateUserEmail(email, verificationCode);
 
       user.email = email;
       user.verificationCode = verificationCode;
@@ -190,7 +190,7 @@ export const forgotPassword = async (req, res) => {
 
     await user.save();
 
-    await sendEmail(
+    await forgotPasswordEmail(
       email,
       "Password reset",
       `Your new password is: ${newPassword}`
