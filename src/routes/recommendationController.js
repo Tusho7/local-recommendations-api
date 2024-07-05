@@ -1,5 +1,6 @@
 import express from "express";
 import * as recommendationController from "../controllers/recommendationController.js";
+import { middleware } from "../middlewares/auth.js";
 
 const router = express.Router();
 
@@ -29,7 +30,7 @@ router.put(
 );
 
 router.delete(
-  "/delete_recommendation/:id",
+  "/delete_recommendation/:id", middleware,
   recommendationController.deleteRecommendation
 );
 

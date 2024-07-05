@@ -79,8 +79,8 @@ export const getRecommendationsByCategoryId = async (req, res) => {
         {
           model: User,
           attributes: ["firstName", "lastName"],
-        }
-      ]
+        },
+      ],
     });
 
     if (recommendations.length === 0) {
@@ -192,7 +192,7 @@ export const deleteRecommendation = async (req, res) => {
 
     await recommendation.destroy();
 
-    res.status(204).send();
+    res.status(204).json({ message: "რეკომენდაცია წარმატებით წაიშალა." });
   } catch (error) {
     console.error("Error deleting recommendation:", error);
     res
