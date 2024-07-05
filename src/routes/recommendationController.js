@@ -25,7 +25,7 @@ router.get(
 );
 
 router.put(
-  "/update_recommendation/:id",
+  "/update_recommendation/:id", middleware,
   recommendationController.updateRecommendation
 );
 
