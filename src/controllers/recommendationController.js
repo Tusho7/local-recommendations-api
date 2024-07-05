@@ -120,7 +120,7 @@ export const getRecommendationsByUserId = async (req, res) => {
 
     if (recommendations.length === 0) {
       return res
-        .status(404)
+        .status(200)
         .json({ message: "თქვენ არ გაქვთ რეკომენდაციები დამატებული." });
     }
 
