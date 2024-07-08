@@ -34,4 +34,6 @@ router.delete(
   recommendationController.deleteRecommendation
 );
 
+router.get("/total_recommendations", recommendationController.totalRecommendations)
+
 export default router;

@@ -214,3 +214,13 @@ export const deleteRecommendation = async (req, res) => {
       .json({ message: "დაფიქსირდა შეცდომა რეკომენდაციის წაშლისას." });
   }
 };
+
+export const totalRecommendations = async (req, res) => {
+  try {
+    const totalRecommendations = await Recommendation.count();
+    res.status(200).json({ totalRecommendations });
+  } catch (error) {
+    console.error("Error getting total recommendations:", error);
+    res.status(500).json({ message: "დაფიქსირდა შეცდომა." });
+  }
+}

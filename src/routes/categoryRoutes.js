@@ -29,4 +29,6 @@ router.get("/get_category_name/:id", async (req, res) => {
     }
   });
 
+  router.get("/total_categories", categoryController.totalCategories)
+
 export default router;

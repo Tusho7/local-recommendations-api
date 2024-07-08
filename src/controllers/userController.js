@@ -223,3 +223,13 @@ export const getUser = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+export const totalUsers = async (req, res) => {
+  try {
+    const totalUsers = await User.count();
+    res.status(200).json({ totalUsers });
+  } catch (error) {
+    console.error("Error getting total users:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+}

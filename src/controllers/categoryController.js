@@ -43,3 +43,13 @@ export const deleteCategoryById = async (req,res) => {
         res.status(500).json({ message: "სერვერზე შეცდომა" });
     }
 }
+
+export const totalCategories = async (req,res) => {
+    try {
+        const totalCategories = await Category.count();
+        res.status(200).json({ totalCategories });
+    } catch (error) {
+        console.error("Error getting total categories:", error);
+        res.status(500).json({ message: "სერვერზე შეცდომა" });
+    }
+}

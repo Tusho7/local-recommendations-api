@@ -19,4 +19,6 @@ router.put("/:id", userController.updateUser);
 router.get("/verify", userController.verifyUser);
 router.get("/get_user", middleware, userController.getUser);
 
+router.get("/total_users", userController.totalUsers)
+
 export default router;
