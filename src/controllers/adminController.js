@@ -72,7 +72,7 @@ export const loginAdmin = async (req, res) => {
 
 export const logoutAdmin = async (req, res) => {
   try {
-    res.cookie("token", "", {
+    res.cookie("adminToken", "", {
       httpOnly: true,
       expires: new Date(0),
       secure: true,
@@ -89,7 +89,6 @@ export const logoutAdmin = async (req, res) => {
 export const getAdmin = async (req,res) => {
     try {
         const adminId = req.admin?.id;
-        console.log("adminId", adminId)
         const admin = await Admin.findByPk(adminId);
     
         if (!admin) {
