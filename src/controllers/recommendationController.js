@@ -41,7 +41,6 @@ export const createRecommendation = async (req, res) => {
         name: newRecommendation.name,
         categoryId: newRecommendation.categoryId,
       })
-      console.log("notification:", notification, "client:", "client")
       client.send(notification);
       }
     })
