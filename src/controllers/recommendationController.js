@@ -39,6 +39,7 @@ export const createRecommendation = async (req, res) => {
       const notification = JSON.stringify({
         message: "ახალი რეკომედაცია დაემატა.",
         name: newRecommendation.name,
+        review: newRecommendation.review,
         categoryId: newRecommendation.categoryId,
       })
       client.send(notification);
