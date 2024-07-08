@@ -10,6 +10,7 @@ import bodyParser from "body-parser";
 import contactRoutes from "./routes/contactRoutes.js";
 import wsServer from "./utils/notification.js";
 import adminRoutes from "./routes/adminRoutes.js";
+import metricsRoutes from "./routes/metrics.js";
 
 const app = express();
 dotenv.config();
@@ -39,7 +40,8 @@ app.use("/api/auth", userRoutes);
 app.use("/", categoryRoutes);
 app.use("/", recommendationRoutes);
 app.use("/", contactRoutes);
-app.use("/", adminRoutes)
+app.use("/", adminRoutes);
+app.use("/", metricsRoutes);
 
 const PORT = process.env.PORT || 5000;
 
