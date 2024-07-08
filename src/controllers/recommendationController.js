@@ -1,6 +1,8 @@
 import Category from "../models/Category.js";
 import Recommendation from "../models/Recommendation.js";
 import User from "../models/User.js";
+import wsServer from "../utils/notification.js";
+import { WebSocket } from "ws";
 
 export const createRecommendation = async (req, res) => {
   const { name, review, address, phoneNumber, website, categoryId, userId } =
@@ -31,6 +33,18 @@ export const createRecommendation = async (req, res) => {
       categoryId,
       userId,
     });
+
+    wsServer.clients.forEach((client) => {
+      if(client.readyState === WebSocket.OPEN) {
+      const notification = JSON.stringify({
+        message: "ახალი რეკომედაცია დაემატა.",
+        name: newRecommendation.name,
+        categoryId: newRecommendation.categoryId,
+      })
+      console.log("notification:", notification, "client:", "client")
+      client.send(notification);
+      }
+    })
 
     res.status(201).send(newRecommendation);
   } catch (error) {
@@ -120,7 +134,7 @@ export const getRecommendationsByUserId = async (req, res) => {
 
     if (recommendations.length === 0) {
       return res
-        .status(200)
+        .status()
         .json({ message: "თქვენ არ გაქვთ რეკომენდაციები დამატებული." });
     }
 

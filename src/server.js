@@ -8,6 +8,7 @@ import categoryRoutes from "./routes/categoryRoutes.js";
 import recommendationRoutes from "./routes/recommendationController.js";
 import bodyParser from "body-parser";
 import contactRoutes from "./routes/contactRoutes.js";
+import wsServer from "./utils/notification.js";
 
 const app = express();
 dotenv.config();
@@ -42,4 +43,17 @@ const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
+});
+
+wsServer.on('connection', (ws) => {
+  console.log('WebSocket client connected');
+
+  ws.on('message', (message) => {
+    console.log('Message from client:', message);
+    ws.send(`Server received: ${message}`);
+  });
+
+  ws.on('close', () => {
+    console.log('WebSocket client disconnected');
+  });
 });
