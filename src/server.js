@@ -9,6 +9,7 @@ import recommendationRoutes from "./routes/recommendationController.js";
 import bodyParser from "body-parser";
 import contactRoutes from "./routes/contactRoutes.js";
 import wsServer from "./utils/notification.js";
+import adminRoutes from "./routes/adminRoutes.js";
 
 const app = express();
 dotenv.config();
@@ -38,6 +39,7 @@ app.use("/api/auth", userRoutes);
 app.use("/", categoryRoutes);
 app.use("/", recommendationRoutes);
 app.use("/", contactRoutes);
+app.use("/", adminRoutes)
 
 const PORT = process.env.PORT || 5000;
 
