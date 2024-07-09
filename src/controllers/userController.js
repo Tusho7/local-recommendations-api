@@ -1,7 +1,11 @@
 import User from "../models/User.js";
 import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
-import { sendVerificationEmail, updateUserEmail, forgotPasswordEmail } from "../utils/emailVerification.js";
+import {
+  sendVerificationEmail,
+  updateUserEmail,
+  forgotPasswordEmail,
+} from "../utils/emailVerification.js";
 import jwt from "jsonwebtoken";
 
 const generateUniqueCode = () => {
@@ -11,7 +15,6 @@ const generateUniqueCode = () => {
 const generateNewPssword = () => {
   return Math.random().toString(36).slice(-8);
 };
-
 
 export const createUser = async (req, res) => {
   const { email, password, firstName, lastName } = req.body;
@@ -54,8 +57,8 @@ export const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-
-    if(!email || !password) return res.status(400).json({message: "All fields are required"});
+    if (!email || !password)
+      return res.status(400).json({ message: "All fields are required" });
 
     const user = await User.findOne({ where: { email } });
 
@@ -196,12 +199,10 @@ export const forgotPassword = async (req, res) => {
       `Your new password is: ${newPassword}`
     );
 
-    return res
-      .status(200)
-      .json({
-        message:
-          "Password reset successfully. Check your email for the new password.",
-      });
+    return res.status(200).json({
+      message:
+        "Password reset successfully. Check your email for the new password.",
+    });
   } catch (error) {
     console.error("Error resetting password:", error);
     res.status(500).json({ message: "Server error" });
@@ -232,4 +233,14 @@ export const totalUsers = async (req, res) => {
     console.error("Error getting total users:", error);
     res.status(500).json({ message: "Server error" });
   }
-}
+};
+
+export const getUsers = async (req, res) => {
+  try {
+    const users = await User.findAll();
+    res.status(200).json(users);
+  } catch (error) {
+    console.error("Error getting users:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
