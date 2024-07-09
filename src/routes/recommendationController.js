@@ -34,6 +34,11 @@ router.delete(
   recommendationController.deleteRecommendation
 );
 
+router.delete(
+  "/delete_recommendation_byAdmin/:id", middleware,
+  recommendationController.deleteRecommendationByAdmin
+)
+
 router.get("/total_recommendations", recommendationController.totalRecommendations)
 
 export default router;

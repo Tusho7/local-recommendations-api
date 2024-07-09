@@ -224,3 +224,28 @@ export const totalRecommendations = async (req, res) => {
     res.status(500).json({ message: "დაფიქსირდა შეცდომა." });
   }
 }
+
+export const deleteRecommendationByAdmin = async (req, res) => {
+  const { id } = req.params;
+
+  if (!id) {
+    return res.status(400).json({ message: "რეკომენდაციის ID ვერ მოიძებნა." });
+  }
+
+  try {
+    const recommendation = await Recommendation.findByPk(id);
+
+    if (!recommendation) {
+      return res.status(404).json({ message: "რეკომენდაცია ვერ მოიძებნა." });
+    }
+
+    await recommendation.destroy();
+
+    res.status(204).json({ message: "რეკომენდაცია წარმატებით წაიშალა." });
+  } catch (error) {
+    console.error("Error deleting recommendation by admin:", error);
+    res
+      .status(500)
+      .json({ message: "დაფიქსირდა შეცდომა რეკომენდაციის წაშლისას." });
+  }
+}
