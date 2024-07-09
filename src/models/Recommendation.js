@@ -16,7 +16,7 @@ const Recommendation = sequelize.define(
       allowNull: false,
     },
     review: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false,
     },
     address: {
