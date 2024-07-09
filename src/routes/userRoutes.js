@@ -23,5 +23,6 @@ router.get("/total_users", userController.totalUsers);
 router.get("/users", userController.getUsers);
 
 router.patch("/block_unblock/:id", userController.toggleBlockUser);
+router.delete("/delete_user/:id", userController.deleteUserByid);
 
 export default router;
