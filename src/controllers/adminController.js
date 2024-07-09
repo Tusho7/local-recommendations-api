@@ -130,6 +130,14 @@ export const updateCredentials = async (req, res) => {
       admin.password = hashedPassword;
     }
     await admin.save();
+    
+    res.cookie("adminToken", "", {
+      httpOnly: true,
+      expires: new Date(0),
+      secure: true,
+      sameSite: "none",
+    });
+    
 
     return res.status(200).json({ message: "წარმატებით განახლდა.", admin });
   } catch (error) {
