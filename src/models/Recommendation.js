@@ -37,6 +37,7 @@ const Recommendation = sequelize.define(
         model: Category,
         key: "id",
       },
+      onDelete: "CASCADE",
     },
     userId: {
       type: DataTypes.INTEGER,
@@ -53,6 +54,6 @@ const Recommendation = sequelize.define(
   }
 );
 
-Recommendation.belongsTo(Category, { foreignKey: "categoryId" });
+Recommendation.belongsTo(Category, { foreignKey: "categoryId", onDelete: "CASCADE"});
 Recommendation.belongsTo(User, { foreignKey: "userId" });
 export default Recommendation;
