@@ -86,18 +86,54 @@ export const logoutAdmin = async (req, res) => {
   }
 };
 
-export const getAdmin = async (req,res) => {
-    try {
-        const adminId = req.admin?.id;
-        const admin = await Admin.findByPk(adminId);
-    
-        if (!admin) {
-          return res.status(404).json({ message: "Admin not found" });
-        }
-    
-        res.status(200).json(admin);
-      } catch (error) {
-        console.error("Error getting admin:", error);
-        res.status(500).json({ message: "Server error" });
+export const getAdmin = async (req, res) => {
+  try {
+    const adminId = req.admin?.id;
+    const admin = await Admin.findByPk(adminId);
+
+    if (!admin) {
+      return res.status(404).json({ message: "Admin not found" });
+    }
+
+    res.status(200).json(admin);
+  } catch (error) {
+    console.error("Error getting admin:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+export const updateCredentials = async (req, res) => {
+  const { adminId } = req.params;
+  const { currentPassword, newPassword, newEmail } = req.body;
+
+  try {
+    const admin = await Admin.findByPk(adminId);
+    if (!admin) {
+      return res.status(404).json({ message: "Admin not found" });
+    }
+
+    if (newEmail) {
+      admin.email = newEmail;
+    }
+
+    if (currentPassword && newPassword) {
+      const isMatch = await bcrypt.compare(
+        String(currentPassword),
+        String(admin.password)
+      );
+      if (!isMatch) {
+        return res
+          .status(400)
+          .json({ message: "არასწორი ამჟამინდელი პაროლი." });
       }
-}
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      admin.password = hashedPassword;
+    }
+    await admin.save();
+
+    return res.status(200).json({ message: "წარმატებით განახლდა.", admin });
+  } catch (error) {
+    console.error("Error updating admin:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
