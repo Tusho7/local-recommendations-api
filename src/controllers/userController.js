@@ -67,6 +67,10 @@ export const loginUser = async (req, res) => {
         .status(401)
         .json({ message: "User not found or not verified" });
     }
+    if (user.isBlocked)
+      return res
+        .status(401)
+        .json({ message: "თქვენი მომხმარებელი დაბლოკილია." });
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
@@ -241,6 +245,27 @@ export const getUsers = async (req, res) => {
     res.status(200).json(users);
   } catch (error) {
     console.error("Error getting users:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+export const toggleBlockUser = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const user = await User.findByPk(id);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    user.isBlocked = !user.isBlocked;
+    await user.save();
+
+    const action = user.isBlocked ? "blocked" : "unblocked";
+    res.status(200).json({ message: `User ${action} successfully`, user });
+  } catch (error) {
+    console.error(`Error toggling user block status: ${error}`);
     res.status(500).json({ message: "Server error" });
   }
 };

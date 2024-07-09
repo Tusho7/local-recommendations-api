@@ -19,7 +19,9 @@ router.put("/:id", userController.updateUser);
 router.get("/verify", userController.verifyUser);
 router.get("/get_user", middleware, userController.getUser);
 
-router.get("/total_users", userController.totalUsers)
-router.get("/users", userController.getUsers)
+router.get("/total_users", userController.totalUsers);
+router.get("/users", userController.getUsers);
+
+router.patch("/block_unblock/:id", userController.toggleBlockUser);
 
 export default router;
